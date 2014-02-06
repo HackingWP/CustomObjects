@@ -1,0 +1,8 @@
+{
+    "name": "HackingWP/CustomObjects",
+    "autoload": {
+        "psr-0": {
+            "CustomObjects": ""
+        }
+    }
+}
