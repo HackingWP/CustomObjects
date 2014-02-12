@@ -126,11 +126,23 @@ abstract class PostTypePrototype
             register_post_type( $this->post_type, $post_type_args );
         }
 
-        add_action( 'wp_json_server_before_serve', array($this, 'registerAPI'), 10, 1);
+        add_action('wp_json_server_before_serve', array($this, 'registerAPI'), 10, 1);
+        add_filter('json_prepare_meta', array($this, 'json_prepare_meta'), 10, 1);
 
         $this->do_after_registration();
 
         return $this;
+    }
+
+    public function json_prepare_meta($custom_fields)
+    {
+        foreach ($custom_fields as &$custom_field) {
+            foreach ($custom_field as &$metavalue) {
+                $metavalue = maybe_unserialize($metavalue);
+            }
+        }
+
+        return $custom_fields;
     }
 
     public function registerAPI()
